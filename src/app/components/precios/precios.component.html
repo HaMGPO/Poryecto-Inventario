@@ -1,1 +1,41 @@
-<p>precios works!</p>
+<h2>Precios por producto</h2>
+
+<form [formGroup]="parametrosData">
+    <mat-form-field>
+        <mat-label>A partir de:</mat-label>
+        <input 
+            matInput [matDatepicker]="fechaInicio"
+            [min]="minDate" [max]="maxDate"
+            formControlName="fecha"
+            placeholder="Fecha : DD/MM/AAAA *">
+        <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+        <mat-datepicker #fechaInicio disabled="false"></mat-datepicker>
+    </mat-form-field>
+
+    <button
+        (click)="buscarPrecios()" 
+        mat-fab color="primary" 
+        [disabled]="!(parametrosData.valid && productoSeleccionado)">
+        <mat-icon>search</mat-icon>
+    </button> *disclaimer: dar 2 clicks la primera vez
+</form>
+
+
+
+<!-- ul es lista sin ordenar -->
+<ul class="preciosProducto">
+  <li 
+    [class.selected]="pp===productoSeleccionado" 
+    *ngFor="let pp of productos" 
+    (click)="alSeleccionarProducto(pp)">
+    
+    <span class="badge"> {{pp.id}}</span>
+    <span> {{pp.nombre}}</span>
+
+  </li>
+</ul>
+
+<div *ngIf="preciosProducto "> 
+    <grafico-tendencia-producto #child [data]="preciosProducto"></grafico-tendencia-producto>
+</div>
+
